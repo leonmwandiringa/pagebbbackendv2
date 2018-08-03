@@ -14,7 +14,7 @@ import { Request, Response, NextFunction } from "express";
 
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, X-HTTP-METHOD");
-        res.header("Access-Control-Allow-Methods", "GET, POST, HEAD");                                
+        res.header("Access-Control-Allow-Methods", "GET, POST, HEAD, DELETE, PUT");                                
 
         next();
 

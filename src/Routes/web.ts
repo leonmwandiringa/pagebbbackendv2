@@ -6,7 +6,7 @@
 
 import { Router, Request, Response, NextFunction } from "express";
 import HomeController from "../App/Controllers/HomeController";
-import BuilderController from "../App/Controllers/BuilderController";
+import BuilderCrudController from "../App/Controllers/BuilderCrudController";
 
 class GlobalRoutes{
 
@@ -20,9 +20,9 @@ class GlobalRoutes{
 
     private initiateRoutes(): void{
 
-        this.router.post("/website", BuilderController.creations('website'));
-        this.router.get("/website", BuilderController.retrivals('website'));
-        this.router.delete("/website/:id", BuilderController.deletions('website'));
+        this.router.post("/website", BuilderCrudController.creations('website'));
+        this.router.get("/website", BuilderCrudController.retrivals('website'));
+        this.router.delete("/website/:id", BuilderCrudController.deletions('website'));
         
     }
 

@@ -11,9 +11,9 @@ import Website from "../Models/Website";
 
 class WebsiteController{
 
-   private globalResponse: ValidationInterface;
+   private static globalResponse: ValidationInterface;
    constructor(){
-        this.globalResponse = null;
+        
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,14 +29,14 @@ class WebsiteController{
 
         if(ErrorValidations){
 
-            this.globalResponse = {
+            WebsiteController.globalResponse = {
                 status: false,
                 message: ErrorValidations,
                 notice: "warning",
                 resp: null
             }
 
-            return res.status(200).json(this.globalResponse);
+            return res.status(200).json(WebsiteController.globalResponse);
 
         }
 
@@ -55,7 +55,7 @@ class WebsiteController{
 
             }else{
 
-                this.globalResponse = {
+                WebsiteController.globalResponse = {
 
                     status: true,
                     message: "Website was not created because it already exists",
@@ -63,7 +63,7 @@ class WebsiteController{
                     resp: null
                 }
     
-                return res.status(200).json(this.globalResponse);
+                return res.status(200).json(WebsiteController.globalResponse);
 
             }
 
@@ -120,7 +120,7 @@ class WebsiteController{
 
             if(websites.length != 0 || websites != null){
 
-                this.globalResponse = {
+                WebsiteController.globalResponse = {
 
                     status: true,
                     message: "Website were retrieved yo!",
@@ -131,7 +131,7 @@ class WebsiteController{
                 
             }else{
 
-                this.globalResponse = {
+                WebsiteController.globalResponse = {
 
                     status: false,
                     message: "Website were not retrieved yo!",
@@ -140,7 +140,7 @@ class WebsiteController{
                 }
             }
 
-            return res.status(200).json(this.globalResponse);
+            return res.status(200).json(WebsiteController.globalResponse);
 
         });
 
@@ -153,36 +153,36 @@ class WebsiteController{
 
         let { id } = req.params;
 
-        req.checkBody("id", "ID is not supposed to be empty").notEmpty();
+        req.checkParams("id", "ID is not supposed to be empty").notEmpty();
 
         let ErrorValidations = req.validationErrors();
         if(ErrorValidations){
 
-            this.globalResponse = {
+            WebsiteController.globalResponse = {
                 status: false,
                 message: ErrorValidations,
                 notice: "warning",
                 resp: null
             }
 
-            return res.status(200).json(this.globalResponse);
+            return res.status(200).json(WebsiteController.globalResponse);
 
         }
 
-        Website.findByIdAndRemove(id, (err: any, deleted: any)=>{
+        Website.findOneAndRemove({_id: id}, (err: any, deleted: any)=>{
 
             if(err){
                 console.log(err);
             }
 
-            this.globalResponse = {
+            WebsiteController.globalResponse = {
                 status: true,
                 message: "Website was successfully deleted",
                 notice: "success",
                 resp: deleted
             }
 
-            return res.status(200).json(this.globalResponse);
+            return res.status(200).json(WebsiteController.globalResponse);
 
         })
 
