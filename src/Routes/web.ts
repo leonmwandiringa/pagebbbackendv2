@@ -19,8 +19,11 @@ class GlobalRoutes{
 
 
     private initiateRoutes(): void{
+
         this.router.post("/website", BuilderController.creations('website'));
         this.router.get("/website", BuilderController.retrivals('website'));
+        this.router.delete("/website/:id", BuilderController.deletions('website'));
+        
     }
 
 }

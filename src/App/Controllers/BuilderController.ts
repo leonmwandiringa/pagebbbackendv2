@@ -38,6 +38,17 @@ class BulderController{
 
    }
 
+   /**handles all page or website deletions */
+   public static deletions(deletionType: string): any{
+
+        if(deletionType == 'website'){
+            return new WebsiteController().deleteWebsite;
+        }else{
+            return new WebsiteController;
+        }
+
+   }
+
 
 
 }
