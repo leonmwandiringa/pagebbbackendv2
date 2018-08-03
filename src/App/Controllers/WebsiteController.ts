@@ -20,7 +20,7 @@ class WebsiteController{
    /*addition of websites */
    public addWebsite(req: Request, res: Response): Response{
 
-        let { title, framework, author = 'admin'} = req.body ;
+        let { title, framework, author = 'admin', status} = req.body ;
         req.checkBody("title", "Website Title is not supposed to be empty").notEmpty();
        
         req.checkBody("framework", "Website Framework is not supposed to be empty is not supposed to be empty").notEmpty();
@@ -41,7 +41,7 @@ class WebsiteController{
         }
 
         
-        let sanitized: any = WebsiteController.saniTizerbaby(title, framework, author);
+        let sanitized: any = WebsiteController.saniTizerbaby(title, framework, author, status);
 
         Website.find({title: sanitized.title}, (err: any, website: any)=>{
 
@@ -72,12 +72,13 @@ class WebsiteController{
    }
 
    /*sanitized passed values*/
-   public static saniTizerbaby(title: string, framework: string, author: string ): any{
+   public static saniTizerbaby(title: string, framework: string, author: string, status: string ): any{
 
         let sanitzed = {
             title: title.trim(),
             framework: framework.trim(),
-            author: author.trim()
+            author: author.trim(),
+            status: status.trim()
         };
 
         return sanitzed;
