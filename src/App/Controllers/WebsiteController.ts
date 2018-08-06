@@ -6,19 +6,20 @@
 
 import { Request, Response } from "express";
 import Page from "../Models/Page";
-import ValidationInterface from "../Interfaces/Validations";
+import ValidationInterface from "../Interfaces/ValidationsInterface";
 import Website from "../Models/Website";
+import AbstractCrudController from "../Interfaces/AbstractCrudController";
 
-class WebsiteController{
+class WebsiteController extends AbstractCrudController{
 
    private static globalResponse: ValidationInterface;
    constructor(){
-        
+        super();
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    /*addition of websites */
-   public addWebsite(req: Request, res: Response): Response{
+   public create(req: Request, res: Response): Response{
 
         let { title, framework, author = 'admin', status} = req.body ;
         req.checkBody("title", "Website Title is not supposed to be empty").notEmpty();
@@ -51,7 +52,7 @@ class WebsiteController{
 
             if(website == null || website.length == 0){
 
-                return WebsiteController.saveSite(res, sanitized);
+                return WebsiteController.save(res, sanitized);
 
             }else{
 
@@ -85,7 +86,7 @@ class WebsiteController{
    }
 
    /*saved from the passed data and stuff*/
-   public static saveSite(res: Response, sanitized: any){
+   public static save(res: Response, sanitized: any){
 
         let saveWebsite = new Website(sanitized);
 
@@ -111,7 +112,7 @@ class WebsiteController{
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* handles getting of all saved pages*/
-   public getAllWebsites(req: Request, res: Response): any{
+   public getAll(req: Request, res: Response): any{
 
         Website.find({}, (err: any, websites: any)=>{
 
@@ -150,7 +151,7 @@ class WebsiteController{
 
    /**run a webste delete op */
 
-   public deleteWebsite(req:Request, res:Response): any{
+   public delete(req:Request, res:Response): any{
 
         let { id } = req.params;
 

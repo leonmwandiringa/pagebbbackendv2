@@ -8,7 +8,7 @@
 
 import { Request, Response } from "express";
 import Page from "../Models/Page";
-import ValidationInterface from "../Interfaces/Validations";
+import ValidationInterface from "../Interfaces/ValidationsInterface";
 import WebsiteController from "./WebsiteController";
 
 class BulderController{
@@ -21,7 +21,7 @@ class BulderController{
    public static creations(creationType: string): any{
 
         if(creationType == 'website'){
-            return new WebsiteController().addWebsite;
+            return new WebsiteController().create;
         }else{
             return new WebsiteController;
         }
@@ -31,7 +31,7 @@ class BulderController{
    public static retrivals(retrivalType: string): any{
 
         if(retrivalType == 'website'){
-            return new WebsiteController().getAllWebsites;
+            return new WebsiteController().getAll;
         }else{
             return new WebsiteController;
         }
@@ -42,7 +42,7 @@ class BulderController{
    public static deletions(deletionType: string): any{
 
         if(deletionType == 'website'){
-            return new WebsiteController().deleteWebsite;
+            return new WebsiteController().delete;
         }else{
             return new WebsiteController;
         }
