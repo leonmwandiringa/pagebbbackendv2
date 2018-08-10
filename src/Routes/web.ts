@@ -24,6 +24,10 @@ class GlobalRoutes{
         this.router.get("/website", BuilderCrudController.retrivals('website'));
         this.router.delete("/website/:id", BuilderCrudController.deletions('website'));
         
+
+        //seperate unexposed init
+        this.router.post("/insert", new BuilderCrudController().insertCode);
+        this.router.get("/components/:framework", new BuilderCrudController().getAllComponents);
     }
 
 }
