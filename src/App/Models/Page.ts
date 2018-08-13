@@ -12,10 +12,31 @@
         type: String,
         required: true,
     },
-    website_id:{
+    websiteId:{
         type: String,
         required: true
+    },
+    description:{
+        type: String,
+        required: false,
+        default: null
+    },
+    priority:{
+        type: String,
+        required: false,
+        enum: ['landing', 'support'],
+        default: 'support'
+    },
+    code:{
+        type: String,
+        required: false,
+        default: null
+    },
+    logs:{
+        type: Array,
+        default: []
     }
+
 
  },{
      timestamps: true

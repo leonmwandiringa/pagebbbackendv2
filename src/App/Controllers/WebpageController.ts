@@ -1,7 +1,7 @@
 /**
  * @author Leon Mwandiringa
- * @uses define website Main handler
- * @return website controller object
+ * @uses define webpage Main handler
+ * @return webpage controller object
  */
 
 import { Request, Response } from "express";
@@ -10,7 +10,7 @@ import ValidationInterface from "../Interfaces/ValidationsInterface";
 import Website from "../Models/Website";
 import AbstractCrudController from "../Interfaces/AbstractCrudController";
 
-class WebsiteController extends AbstractCrudController{
+class WebPageController extends AbstractCrudController{
 
    private static globalResponse: ValidationInterface;
    constructor(){
@@ -21,28 +21,28 @@ class WebsiteController extends AbstractCrudController{
    /*addition of websites */
    public create(req: Request, res: Response): Response{
 
-        let { title, theme, author = 'admin', status, navigationType, logo} = req.body ;
+        let { title, websiteId, priority, description } = req.body ;
         req.checkBody("title", "Website Title is not supposed to be empty").notEmpty();
 
         let ErrorValidations = req.validationErrors();
 
         if(ErrorValidations){
 
-            WebsiteController.globalResponse = {
+            WebPageController.globalResponse = {
                 status: false,
                 message: ErrorValidations,
                 notice: "warning",
                 resp: null
             }
 
-            return res.status(200).json(WebsiteController.globalResponse);
+            return res.status(200).json(WebPageController.globalResponse);
 
         }
 
         
-        let sanitized: any = WebsiteController.saniTizerbaby(title, theme, author, status, navigationType, logo);
+        let sanitized: any = WebPageController.saniTizerbaby(title, websiteId, priority, description);
 
-        Website.find({title: sanitized.title, author: sanitized.author}, (err: any, website: any)=>{
+        Website.find({_id: sanitized.websiteId}, (err: any, website: any)=>{
 
             if(err){
                 console.log(err);
@@ -50,19 +50,19 @@ class WebsiteController extends AbstractCrudController{
 
             if(website == null || website.length == 0){
 
-                return WebsiteController.save(res, sanitized);
-
-            }else{
-
-                WebsiteController.globalResponse = {
+                WebPageController.globalResponse = {
 
                     status: true,
-                    message: "Website was not created because it already exists",
+                    message: "Page was not created because website does not exist",
                     notice: "warning",
                     resp: null
                 }
     
-                return res.status(200).json(WebsiteController.globalResponse);
+                return res.status(200).json(WebPageController.globalResponse);     
+
+            }else{
+
+                return WebPageController.save(res, sanitized);
 
             }
 
@@ -71,15 +71,13 @@ class WebsiteController extends AbstractCrudController{
    }
 
    /*sanitized passed values*/
-   public static saniTizerbaby(title: string, theme: string, author: string, status: string, navigationType: string, logo:string ): object{
+   public static saniTizerbaby(title: string, websiteId: string, priority: string, description: string): object{
 
         let sanitzed = {
             title: title.trim(),
-            theme: theme.trim(),
-            author: author.trim(),
-            status: status.trim(),
-            navigationType: navigationType.trim(),
-            logo: logo.trim()
+            websiteId: websiteId.trim(),
+            priority: priority.trim(),
+            description: description.trim(),
         };
 
         return sanitzed;
@@ -88,16 +86,16 @@ class WebsiteController extends AbstractCrudController{
    /*saved from the passed data and stuff*/
    public static save(res: Response, sanitized: any){
 
-        let saveWebsite = new Website(sanitized);
+        let saveWebpage = new Page(sanitized);
 
-        return saveWebsite.save((err: any, site:any)=>{
+        return saveWebpage.save((err: any, site:any)=>{
         
             if(err){
                 console.log(err)
                 throw new Error(`an error occured ${err}`);
             }
 
-            WebsiteController.globalResponse = {
+            WebPageController.globalResponse = {
 
                 status: true,
                 message: "Website has successfully been created",
@@ -105,7 +103,7 @@ class WebsiteController extends AbstractCrudController{
                 resp: site
             }
 
-            return res.status(200).json(WebsiteController.globalResponse);
+            return res.status(200).json(WebPageController.globalResponse);
         });
 
    }
@@ -122,7 +120,7 @@ class WebsiteController extends AbstractCrudController{
 
             if(websites.length != 0 || websites != null){
 
-                WebsiteController.globalResponse = {
+                WebPageController.globalResponse = {
 
                     status: true,
                     message: "Website were retrieved yo!",
@@ -133,7 +131,7 @@ class WebsiteController extends AbstractCrudController{
                 
             }else{
 
-                WebsiteController.globalResponse = {
+                WebPageController.globalResponse = {
 
                     status: false,
                     message: "Website were not retrieved yo!",
@@ -142,7 +140,7 @@ class WebsiteController extends AbstractCrudController{
                 }
             }
 
-            return res.status(200).json(WebsiteController.globalResponse);
+            return res.status(200).json(WebPageController.globalResponse);
 
         });
 
@@ -160,14 +158,14 @@ class WebsiteController extends AbstractCrudController{
         let ErrorValidations = req.validationErrors();
         if(ErrorValidations){
 
-            WebsiteController.globalResponse = {
+            WebPageController.globalResponse = {
                 status: false,
                 message: ErrorValidations,
                 notice: "warning",
                 resp: null
             }
 
-            return res.status(200).json(WebsiteController.globalResponse);
+            return res.status(200).json(WebPageController.globalResponse);
 
         }
 
@@ -177,14 +175,14 @@ class WebsiteController extends AbstractCrudController{
                 console.log(err);
             }
 
-            WebsiteController.globalResponse = {
+            WebPageController.globalResponse = {
                 status: true,
                 message: "Website was successfully deleted",
                 notice: "success",
                 resp: deleted
             }
 
-            return res.status(200).json(WebsiteController.globalResponse);
+            return res.status(200).json(WebPageController.globalResponse);
 
         })
 
@@ -192,4 +190,4 @@ class WebsiteController extends AbstractCrudController{
    }
 }
 
-export default WebsiteController;
+export default WebPageController;
