@@ -12,10 +12,9 @@ const CodeSnippetModel = new Schema({
        type: String,
        required: true,
    },
-   framework:{
+   category: {
        type: String,
-       required: true,
-       enum: ['Bootstrap4', 'Bootstrap3', 'MWF', 'Materialize', 'Foundation']
+       required: true
    },
    code:{
         type: String,

@@ -12,10 +12,9 @@
         type: String,
         required: true,
     },
-    framework:{
+    website_id:{
         type: String,
-        required: true,
-        enum: ['Bootstrap 4', 'Bootstrap 3', 'MWF', 'Materialize', 'Foundation']
+        required: true
     }
 
  },{

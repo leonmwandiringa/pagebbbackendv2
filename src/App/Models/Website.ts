@@ -12,23 +12,41 @@ const WebsiteSchema = new Schema({
        type: String,
        required: true,
    },
-   framework:{
+   theme:{
        type: String,
-       required: true,
-       enum: ['Bootstrap4', 'Bootstrap3', 'MWF', 'Materialize', 'Foundation']
+       required: false,
+       enum: ['Bootstrap', 'Modern'],
+       default: 'Bootstrap'
+   },
+   navigation:{
+       type: Array,
+       default: []
+   },
+   navigationType:{
+        type: String,
+        required: false,
+        enum: ['centerv1', 'leftv1', 'rightv1'],
+        default: 'rightv1'
+   },
+   logo:{
+        type: String,
+        required: false,
+        default: null
    },
    author: {
        type: String,
-        default: 'admin'
+       default: 'admin',
+       required: false
    },
    status: {
         type: String,
         default: 'PREVIEW',
-        enum: ['PREVIEW', 'LIVE']
+        enum: ['PREVIEW', 'LIVE'],
+        required: false
    },
    pages:{
-       type: Number,
-       default: 0
+       type: Array,
+       default: []
    }
 
 },{

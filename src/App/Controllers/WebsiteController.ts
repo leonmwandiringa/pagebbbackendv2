@@ -21,10 +21,8 @@ class WebsiteController extends AbstractCrudController{
    /*addition of websites */
    public create(req: Request, res: Response): Response{
 
-        let { title, framework, author = 'admin', status} = req.body ;
+        let { title, theme, author = 'admin', status, navigationType, logo} = req.body ;
         req.checkBody("title", "Website Title is not supposed to be empty").notEmpty();
-       
-        req.checkBody("framework", "Website Framework is not supposed to be empty is not supposed to be empty").notEmpty();
 
         let ErrorValidations = req.validationErrors();
 
@@ -42,9 +40,9 @@ class WebsiteController extends AbstractCrudController{
         }
 
         
-        let sanitized: any = WebsiteController.saniTizerbaby(title, framework, author, status);
+        let sanitized: any = WebsiteController.saniTizerbaby(title, theme, author, status, navigationType, logo);
 
-        Website.find({title: sanitized.title}, (err: any, website: any)=>{
+        Website.find({title: sanitized.title, author: sanitized.author}, (err: any, website: any)=>{
 
             if(err){
                 console.log(err);
@@ -73,13 +71,15 @@ class WebsiteController extends AbstractCrudController{
    }
 
    /*sanitized passed values*/
-   public static saniTizerbaby(title: string, framework: string, author: string, status: string ): any{
+   public static saniTizerbaby(title: string, theme: string, author: string, status: string, navigationType: string, logo:string ): object{
 
         let sanitzed = {
             title: title.trim(),
-            framework: framework.trim(),
+            theme: theme.trim(),
             author: author.trim(),
-            status: status.trim()
+            status: status.trim(),
+            navigationType: navigationType.trim(),
+            logo: logo.trim()
         };
 
         return sanitzed;
